@@ -1,0 +1,11 @@
+--- ghostpdl-9.19/pcl/pl/pjparse.c.orig	2016-03-23 09:19:58.000000000 +0100
++++ ghostpdl-9.19/pcl/pl/pjparse.c	2016-07-30 20:27:35.447003714 +0200
+@@ -124,7 +124,7 @@
+    source table. */
+ static pjl_fontsource_t pjl_fontsource_table[] = {
+     {"I",
+-     "%rom%ttfonts/;fonts/;urwfonts/;/windows/fonts/;/win95/fonts/;/winnt/fonts/", ""},
++     "/usr/share/fonts/Type1/;/usr/share/fonts/TTF/" },
+     {"C", "CART0/", ""},
+     {"C1", "CART1/", ""},
+     {"C2", "CART2/", ""},

@@ -1,0 +1,47 @@
+--- ghostpdl-9.19/xps/xps.mak.orig	2016-03-23 09:19:58.000000000 +0100
++++ ghostpdl-9.19/xps/xps.mak	2016-08-01 21:49:32.874974496 +0200
+@@ -57,7 +57,7 @@
+ $(XPSOBJ)xpsjpeg.$(OBJ): $(XPSSRC)xpsjpeg.c $(XPSINCLUDES) $(XPS_MAK) $(MAKEDIRS)
+ 	$(XPSCCC) $(XPSSRC)xpsjpeg.c $(XPSO_)xpsjpeg.$(OBJ)
+ 
+-$(XPSOBJ)xpspng.$(OBJ): $(XPSSRC)xpspng.c $(XPSINCLUDES) $(PNGSRCDIR)$(D)png.h \
++$(XPSOBJ)xpspng.$(OBJ): $(XPSSRC)xpspng.c $(XPSINCLUDES) \
+                         $(PNGGENDIR)$(D)libpng.dev $(XPS_MAK) $(MAKEDIRS)
+ 	$(XPSCCC) $(I_)$(PNGSRCDIR)$(_I) $(XPSSRC)xpspng.c $(XPSO_)xpspng.$(OBJ)
+ 
+--- ghostpdl-9.20/Makefile.in.orig	2016-09-26 12:36:27.000000000 +0200
++++ ghostpdl-9.20/Makefile.in	2017-02-06 21:59:33.532453094 +0100
+@@ -321,7 +321,7 @@
+ EXPATGENDIR=$(GLGENDIR)
+ EXPATOBJDIR=$(GLOBJDIR)
+ EXPATINCDIR = $(EXPATSRCDIR)$(D)lib
+-SHARE_EXPAT=0
++SHARE_EXPAT=1
+ 
+ JPEGXR_SRCDIR=@SRCDIR@/jpegxr
+ SHARE_JPEGXR=0
+@@ -450,7 +450,7 @@
+ # Solaris may need -lnsl -lsocket -lposix4.
+ # (Libraries required by individual drivers are handled automatically.)
+ 
+-EXTRALIBS=$(XTRALIBS) @LIBS@ @DYNAMIC_LIBS@ @FONTCONFIG_LIBS@ @FT_LIBS@ @JPX_AUTOCONF_LIBS@
++EXTRALIBS=$(XTRALIBS) @LIBS@ @DYNAMIC_LIBS@ @FONTCONFIG_LIBS@ @FT_LIBS@ @JPX_AUTOCONF_LIBS@ @EXPAT_LIB@
+ AUXEXTRALIBS=$(XTRALIBS) @LIBS@ @DYNAMIC_LIBS@ @FONTCONFIG_LIBS@ @FT_LIBS@ @JPX_AUTOCONF_LIBS@ @AUX_SHARED_ZLIB@
+ 
+ # Define the standard libraries to search at the end of linking.
+--- ghostpdl-9.20/configure.ac.orig	2017-02-06 21:58:23.352453896 +0100
++++ ghostpdl-9.20/configure.ac	2017-02-06 21:58:26.675787193 +0100
+@@ -1543,6 +1543,13 @@
+ AC_SUBST(SHARE_JPX)
+ AC_SUBST(JPXDEVS)
+ 
++EXPAT_LIB=
++if test ! -d expat && $PKGCONFIG --exists expat ; then
++	CFLAGS="$CFLAGS `$PKGCONFIG --cflags expat`"
++	EXPAT_LIB="`$PKGCONFIG --libs expat`"
++fi
++AC_SUBST([EXPAT_LIB])
++
+ dnl check if we can/should build the gtk loader
+ AC_ARG_ENABLE([gtk], AC_HELP_STRING([--disable-gtk],
+     [Do not build the gtk loader]))
