@@ -4,7 +4,7 @@
     source table. */
  static pjl_fontsource_t pjl_fontsource_table[] = {
      {"I",
--     "%rom%ttfonts/;fonts/;urwfonts/;/windows/fonts/;/win95/fonts/;/winnt/fonts/", ""},
+-     "%rom%ttfonts/;urwfonts/;pcl/urwfonts/;ghostpdl/pcl/urwfonts/;/windows/fonts/;", ""},
 +     "/usr/share/fonts/Type1/;/usr/share/fonts/TTF/" },
      {"C", "CART0/", ""},
      {"C1", "CART1/", ""},
