@@ -9,7 +9,7 @@ Summary:	PostScript, PDF and XPS interpreter and renderer
 Summary(pl.UTF-8):	Interpreter i renderer PostScriptu, PDF oraz XPS
 Name:		ghostpdl
 Version:	9.22
-Release:	0.1
+Release:	1
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
@@ -116,9 +116,9 @@ install pcl/tools/{pcl2pdf,pcl2pdfwr,plot2pdf.sh} $RPM_BUILD_ROOT%{_bindir}
 ln -sf gpcl6 $RPM_BUILD_ROOT%{_bindir}/pcl6
 
 # packaged in ghostscript.spec
-%{__rm} $RPM_BUILD_ROOT%{_bindir}/{dvipdf,eps2eps,font2c,gs*,lprsetup.sh,pdf2*,pf2afm,pfbtopfa,pphs,printafm,ps2*,unix-lpr.sh,wftopfa}
-%{__rm} $RPM_BUILD_ROOT%{_mandir}/man1/{dvipdf,eps2eps,font2c,gs*,pdf2*,pf2afm,pfbtopfa,printafm,ps2*,wftopfa}.1
-%{__rm} $RPM_BUILD_ROOT%{_mandir}/de/man1/{dvipdf,eps2eps,font2c,gsnd,pdf2*,printafm,ps2*,wftopfa}.1
+%{__rm} $RPM_BUILD_ROOT%{_bindir}/{dvipdf,eps2eps,gs*,lprsetup.sh,pdf2*,pf2afm,pfbtopfa,pphs,printafm,ps2*,unix-lpr.sh}
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/man1/{dvipdf,eps2eps,gs*,pdf2*,pf2afm,pfbtopfa,printafm,ps2*}.1
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/de/man1/{dvipdf,eps2eps,gsnd,pdf2*,printafm,ps2*}.1
 %{__rm} -r $RPM_BUILD_ROOT%{_datadir}/ghostscript
 
 %clean
