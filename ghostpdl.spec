@@ -8,13 +8,13 @@
 Summary:	PostScript, PDF and XPS interpreter and renderer
 Summary(pl.UTF-8):	Interpreter i renderer PostScriptu, PDF oraz XPS
 Name:		ghostpdl
-Version:	9.22
-Release:	3
+Version:	9.25
+Release:	1
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
-Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs922/%{name}-%{version}.tar.xz
-# Source0-md5:	4b6fd53f0b7ffca24cdf98456fecc22e
+Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs925/%{name}-%{version}.tar.xz
+# Source0-md5:	0ba30d0a36c1f9b09ad280f9fe08004d
 Patch0:		%{name}-fonts_locations.patch
 Patch1:		%{name}-make.patch
 Patch2:		%{name}-system-libs.patch
@@ -98,7 +98,6 @@ oparciu o Ghostscript.
 # (unmodified) libjpeg 9a is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
 # openjpeg is 2.1.0 + fixes; stick to bundled for now
 # lcms2 is 2.6 with some minor future changes (one already in 2.7, two post-2.7, extra_xform.h ???)
-%{?with_system_lcms2:%{__rm} -r lcms2}
 %{?with_system_expat:%{__rm} -r expat}
 %{__autoconf}
 %configure \
