@@ -8,13 +8,13 @@
 Summary:	PostScript, PDF and XPS interpreter and renderer
 Summary(pl.UTF-8):	Interpreter i renderer PostScriptu, PDF oraz XPS
 Name:		ghostpdl
-Version:	9.25
+Version:	9.26
 Release:	1
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
-Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs925/%{name}-%{version}.tar.xz
-# Source0-md5:	0ba30d0a36c1f9b09ad280f9fe08004d
+Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs926/%{name}-%{version}.tar.xz
+# Source0-md5:	36c868d895f7d002062f45c12dda629f
 Patch0:		%{name}-fonts_locations.patch
 Patch1:		%{name}-make.patch
 Patch2:		%{name}-system-libs.patch
