@@ -20,23 +20,23 @@ Patch1:		%{name}-make.patch
 Patch2:		%{name}-system-libs.patch
 URL:		http://ghostscript.com/
 BuildRequires:	autoconf >= 2.63
-BuildRequires:	cups-devel
-%{!?with_system_expat:BuildRequires:	expat-devel >= 1.95}
+BuildRequires:	cups-devel >= 1.5
+%{?with_system_expat:BuildRequires:	expat-devel >= 1:2.2.5}
 BuildRequires:	fontconfig-devel
 BuildRequires:	libidn-devel
-%{!?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.6}
-%{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.12}
+%{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.9.1}
+%{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.15}
 %{?with_system_lcms2:BuildRequires:	lcms2-devel >= 2.6}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpaper-devel
-BuildRequires:	libpng-devel >= 2:1.6.17
-BuildRequires:	libtiff-devel >= 4.0.1
+BuildRequires:	libpng-devel >= 2:1.6.34
+BuildRequires:	libtiff-devel >= 4.0.9
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXt-devel
 BuildRequires:	xz
-BuildRequires:	zlib-devel
+BuildRequires:	zlib-devel >= 1.2.11
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -54,7 +54,14 @@ Summary:	PCL-5 and PCL-XL implementation
 Summary(pl.UTF-8):	Implementacja PCL-5 oraz PCL-XL
 Group:		Applications/Graphics
 URL:		http://ghostscript.com/GhostPCL.html
+Requires:	cups-lib >= 1.5
+%{?with_system_expat:Requires:	expat >= 1:2.2.5}
+%{?with_system_freetype:Requires:	freetype >= 1:2.9.1}
 Requires:	ghostscript = %{version}
+%{?with_system_jbig2dec:Requires:	jbig2dec >= 0.15}
+Requires:	libpng >= 2:1.6.34
+Requires:	libtiff >= 4.0.9
+Requires:	zlib >= 1.2.11
 Suggests:	fonts-TTF-urw
 Conflicts:	ghostpcl < 9
 
@@ -71,7 +78,14 @@ Summary:	XPS document format implementation based on Ghostscript
 Summary(pl.UTF-8):	Implementacja formatu dokumentów XPS oparta na Ghostscripcie
 Group:		Applications/Graphics
 URL:		http://ghostscript.com/GhostXPS.html
+Requires:	cups-lib >= 1.5
+%{?with_system_expat:Requires:	expat >= 1:2.2.5}
+%{?with_system_freetype:Requires:	freetype >= 1:2.9.1}
 Requires:	ghostscript = %{version}
+%{?with_system_jbig2dec:Requires:	jbig2dec >= 0.15}
+Requires:	libpng >= 2:1.6.34
+Requires:	libtiff >= 4.0.9
+Requires:	zlib >= 1.2.11
 
 %description -n ghostxps
 GhostXPS is an implementation of the Microsoft XPS document format
@@ -89,16 +103,17 @@ oparciu o Ghostscript.
 
 %build
 # use system libs:
-# freetype 2.5.5 + few pre-2.6 fixes from git
-%{?with_system_freetype:%{__rm} -r freetype}
-# jbig2dec 0.13 + minor fix
-%{?with_system_jbig2dec:%{__rm} -r jbig2dec}
-# (unmodified) libpng 1.6.17 and zlib 1.2.8
-%{__rm} -r libpng zlib
-# (unmodified) libjpeg 9a is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
-# openjpeg is 2.1.0 + fixes; stick to bundled for now
-# lcms2 is 2.6 with some minor future changes (one already in 2.7, two post-2.7, extra_xform.h ???)
+# expat 2.2.5
 %{?with_system_expat:%{__rm} -r expat}
+# freetype 2.9.1 with minor post-release commits
+%{?with_system_freetype:%{__rm} -r freetype}
+# jbig2dec 0.15
+%{?with_system_jbig2dec:%{__rm} -r jbig2dec}
+# (unmodified) libpng 1.6.34 and zlib 1.2.11
+%{__rm} -r libpng zlib
+# (unmodified) libjpeg 9c is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
+# openjpeg is 2.3.0 + fixes; stick to bundled for now
+# lcms2mt is thread safe version of lcms2
 %{__autoconf}
 %configure \
 	--with-system-libtiff
@@ -119,6 +134,7 @@ ln -sf gpcl6 $RPM_BUILD_ROOT%{_bindir}/pcl6
 %{__rm} $RPM_BUILD_ROOT%{_mandir}/man1/{dvipdf,eps2eps,gs*,pdf2*,pf2afm,pfbtopfa,printafm,ps2*}.1
 %{__rm} $RPM_BUILD_ROOT%{_mandir}/de/man1/{dvipdf,eps2eps,gsnd,pdf2*,printafm,ps2*}.1
 %{__rm} -r $RPM_BUILD_ROOT%{_datadir}/ghostscript
+%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/ghostscript
 
 %clean
 rm -rf $RPM_BUILD_ROOT
