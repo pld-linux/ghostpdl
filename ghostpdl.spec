@@ -8,29 +8,29 @@
 Summary:	PostScript, PDF and XPS interpreter and renderer
 Summary(pl.UTF-8):	Interpreter i renderer PostScriptu, PDF oraz XPS
 Name:		ghostpdl
-Version:	9.26
+Version:	9.52
 Release:	1
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
-Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs926/%{name}-%{version}.tar.xz
-# Source0-md5:	36c868d895f7d002062f45c12dda629f
+Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs952/%{name}-%{version}.tar.xz
+# Source0-md5:	a9097b8a14dfaee002cf006c9f16e31a
 Patch0:		%{name}-fonts_locations.patch
 Patch1:		%{name}-make.patch
 Patch2:		%{name}-system-libs.patch
-URL:		http://ghostscript.com/
+URL:		https://ghostscript.com/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	cups-devel >= 1.5
-%{?with_system_expat:BuildRequires:	expat-devel >= 1:2.2.5}
+%{?with_system_expat:BuildRequires:	expat-devel >= 1:2.2.9}
 BuildRequires:	fontconfig-devel
 BuildRequires:	libidn-devel
-%{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.9.1}
-%{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.15}
+%{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.10.1}
+%{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.18}
 %{?with_system_lcms2:BuildRequires:	lcms2-devel >= 2.6}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpaper-devel
-BuildRequires:	libpng-devel >= 2:1.6.34
-BuildRequires:	libtiff-devel >= 4.0.9
+BuildRequires:	libpng-devel >= 2:1.6.37
+BuildRequires:	libtiff-devel >= 4.1.0
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
@@ -55,12 +55,12 @@ Summary(pl.UTF-8):	Implementacja PCL-5 oraz PCL-XL
 Group:		Applications/Graphics
 URL:		http://ghostscript.com/GhostPCL.html
 Requires:	cups-lib >= 1.5
-%{?with_system_expat:Requires:	expat >= 1:2.2.5}
-%{?with_system_freetype:Requires:	freetype >= 1:2.9.1}
+%{?with_system_expat:Requires:	expat >= 1:2.2.9}
+%{?with_system_freetype:Requires:	freetype >= 1:2.10.1}
 Requires:	ghostscript = %{version}
-%{?with_system_jbig2dec:Requires:	jbig2dec >= 0.15}
-Requires:	libpng >= 2:1.6.34
-Requires:	libtiff >= 4.0.9
+%{?with_system_jbig2dec:Requires:	jbig2dec >= 0.18}
+Requires:	libpng >= 2:1.6.37
+Requires:	libtiff >= 4.1.0
 Requires:	zlib >= 1.2.11
 Suggests:	fonts-TTF-urw
 Conflicts:	ghostpcl < 9
@@ -79,12 +79,12 @@ Summary(pl.UTF-8):	Implementacja formatu dokumentów XPS oparta na Ghostscripcie
 Group:		Applications/Graphics
 URL:		http://ghostscript.com/GhostXPS.html
 Requires:	cups-lib >= 1.5
-%{?with_system_expat:Requires:	expat >= 1:2.2.5}
-%{?with_system_freetype:Requires:	freetype >= 1:2.9.1}
+%{?with_system_expat:Requires:	expat >= 1:2.2.9}
+%{?with_system_freetype:Requires:	freetype >= 1:2.10.1}
 Requires:	ghostscript = %{version}
-%{?with_system_jbig2dec:Requires:	jbig2dec >= 0.15}
-Requires:	libpng >= 2:1.6.34
-Requires:	libtiff >= 4.0.9
+%{?with_system_jbig2dec:Requires:	jbig2dec >= 0.18}
+Requires:	libpng >= 2:1.6.37
+Requires:	libtiff >= 4.1.0
 Requires:	zlib >= 1.2.11
 
 %description -n ghostxps
@@ -103,16 +103,16 @@ oparciu o Ghostscript.
 
 %build
 # use system libs:
-# expat 2.2.5
+# expat 2.2.9
 %{?with_system_expat:%{__rm} -r expat}
-# freetype 2.9.1 with minor post-release commits
+# freetype 2.10.1
 %{?with_system_freetype:%{__rm} -r freetype}
-# jbig2dec 0.15
+# jbig2dec 0.18
 %{?with_system_jbig2dec:%{__rm} -r jbig2dec}
-# (unmodified) libpng 1.6.34 and zlib 1.2.11
+# (unmodified) libpng 1.6.37 and zlib 1.2.11
 %{__rm} -r libpng zlib
 # (unmodified) libjpeg 9c is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
-# openjpeg is 2.3.0 + fixes; stick to bundled for now
+# openjpeg is 2.3.1 + fixes; stick to bundled for now
 # lcms2mt is thread safe version of lcms2
 %{__autoconf}
 %configure \
