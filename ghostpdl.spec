@@ -1,20 +1,22 @@
 #
 # Conditional build:
-%bcond_without	system_expat	# build with included expat
-%bcond_without	system_freetype	# build with included freetype
-%bcond_without	system_jbig2dec	# build with included jbig2dec
-%bcond_without	system_lcms2	# build with included lcms2
+%bcond_without	system_expat	# system expat
+%bcond_without	system_freetype	# system freetype
+%bcond_without	system_jbig2dec	# system jbig2dec
+%bcond_with	system_lcms2	# system lcms2
+%bcond_with	system_libjpeg	# system libjpeg (incompatible with D_MAX_BLOCKS_IN_MCU=64 variant)
+%bcond_with	system_libtiff	# system libtiff (incompatible with modified libjpeg)
 #
 Summary:	PostScript, PDF and XPS interpreter and renderer
 Summary(pl.UTF-8):	Interpreter i renderer PostScriptu, PDF oraz XPS
 Name:		ghostpdl
-Version:	9.52
+Version:	9.53.1
 Release:	1
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
-Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs952/%{name}-%{version}.tar.xz
-# Source0-md5:	a9097b8a14dfaee002cf006c9f16e31a
+Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9531/%{name}-%{version}.tar.xz
+# Source0-md5:	83ad48101127af4b2a4ce33fdd047ae2
 Patch0:		%{name}-fonts_locations.patch
 Patch1:		%{name}-make.patch
 Patch2:		%{name}-system-libs.patch
@@ -25,12 +27,12 @@ BuildRequires:	cups-devel >= 1.5
 BuildRequires:	fontconfig-devel
 BuildRequires:	libidn-devel
 %{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.10.1}
-%{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.18}
-%{?with_system_lcms2:BuildRequires:	lcms2-devel >= 2.6}
-BuildRequires:	libjpeg-devel
+%{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.19}
+%{?with_system_lcms2:BuildRequires:	lcms2-devel >= 2.10}
+%{?with_system_libjpeg:BuildRequires:	libjpeg-devel >= 9c}
 BuildRequires:	libpaper-devel
 BuildRequires:	libpng-devel >= 2:1.6.37
-BuildRequires:	libtiff-devel >= 4.1.0
+%{?with_system_libtiff:BuildRequires:	libtiff-devel >= 4.1.0}
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
@@ -58,9 +60,10 @@ Requires:	cups-lib >= 1.5
 %{?with_system_expat:Requires:	expat >= 1:2.2.9}
 %{?with_system_freetype:Requires:	freetype >= 1:2.10.1}
 Requires:	ghostscript = %{version}
-%{?with_system_jbig2dec:Requires:	jbig2dec >= 0.18}
+%{?with_system_jbig2dec:Requires:	jbig2dec >= 0.19}
+%{?with_system_libjpeg:Requires:	libjpeg >= 9c}
 Requires:	libpng >= 2:1.6.37
-Requires:	libtiff >= 4.1.0
+%{?with_system_libtiff:Requires:	libtiff >= 4.1.0}
 Requires:	zlib >= 1.2.11
 Suggests:	fonts-TTF-urw
 Conflicts:	ghostpcl < 9
@@ -82,9 +85,10 @@ Requires:	cups-lib >= 1.5
 %{?with_system_expat:Requires:	expat >= 1:2.2.9}
 %{?with_system_freetype:Requires:	freetype >= 1:2.10.1}
 Requires:	ghostscript = %{version}
-%{?with_system_jbig2dec:Requires:	jbig2dec >= 0.18}
+%{?with_system_jbig2dec:Requires:	jbig2dec >= 0.19}
+%{?with_system_libjpeg:Requires:	libjpeg >= 9c}
 Requires:	libpng >= 2:1.6.37
-Requires:	libtiff >= 4.1.0
+%{?with_system_libtiff:Requires:	libtiff >= 4.1.0}
 Requires:	zlib >= 1.2.11
 
 %description -n ghostxps
@@ -107,16 +111,18 @@ oparciu o Ghostscript.
 %{?with_system_expat:%{__rm} -r expat}
 # freetype 2.10.1
 %{?with_system_freetype:%{__rm} -r freetype}
-# jbig2dec 0.18
+# jbig2dec 0.19
 %{?with_system_jbig2dec:%{__rm} -r jbig2dec}
 # (unmodified) libpng 1.6.37 and zlib 1.2.11
 %{__rm} -r libpng zlib
 # (unmodified) libjpeg 9c is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
+%{?with_system_libjpeg:%{__rm} -r jpeg}
 # openjpeg is 2.3.1 + fixes; stick to bundled for now
 # lcms2mt is thread safe version of lcms2
+%{?with_system_lcms:%{__rm} -r lcms2mt}
 %{__autoconf}
 %configure \
-	--with-system-libtiff
+	%{?with_system_libtiff:--with-system-libtiff}
 
 %{__make}
 
