@@ -6,33 +6,36 @@
 %bcond_with	system_lcms2	# system lcms2
 %bcond_with	system_libjpeg	# system libjpeg (incompatible with D_MAX_BLOCKS_IN_MCU=64 variant)
 %bcond_with	system_libtiff	# system libtiff (incompatible with modified libjpeg)
+%bcond_without	system_openjp2	# system openjpeg2
 #
 Summary:	PostScript, PDF and XPS interpreter and renderer
 Summary(pl.UTF-8):	Interpreter i renderer PostScriptu, PDF oraz XPS
 Name:		ghostpdl
-Version:	9.53.1
+Version:	9.54.0
 Release:	1
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
-Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9531/%{name}-%{version}.tar.xz
-# Source0-md5:	83ad48101127af4b2a4ce33fdd047ae2
+Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9540/%{name}-%{version}.tar.xz
+# Source0-md5:	2169b5f45df556b975ffe4b45018ddb5
 Patch0:		%{name}-fonts_locations.patch
 Patch1:		%{name}-make.patch
 Patch2:		%{name}-system-libs.patch
+Patch3:		%{name}-tiff.patch
 URL:		https://ghostscript.com/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	cups-devel >= 1.5
 %{?with_system_expat:BuildRequires:	expat-devel >= 1:2.2.9}
 BuildRequires:	fontconfig-devel
 BuildRequires:	libidn-devel
-%{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.10.1}
+%{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.10.4}
 %{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.19}
 %{?with_system_lcms2:BuildRequires:	lcms2-devel >= 2.10}
 %{?with_system_libjpeg:BuildRequires:	libjpeg-devel >= 9c}
 BuildRequires:	libpaper-devel
 BuildRequires:	libpng-devel >= 2:1.6.37
-%{?with_system_libtiff:BuildRequires:	libtiff-devel >= 4.1.0}
+%{?with_system_libtiff:BuildRequires:	libtiff-devel >= 4.2.0}
+%{?with_system_openjp2:BuildRequires:	openjpeg2-devel >= 2.4.0}
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
@@ -58,12 +61,13 @@ Group:		Applications/Graphics
 URL:		http://ghostscript.com/GhostPCL.html
 Requires:	cups-lib >= 1.5
 %{?with_system_expat:Requires:	expat >= 1:2.2.9}
-%{?with_system_freetype:Requires:	freetype >= 1:2.10.1}
+%{?with_system_freetype:Requires:	freetype >= 1:2.10.4}
 Requires:	ghostscript = %{version}
 %{?with_system_jbig2dec:Requires:	jbig2dec >= 0.19}
 %{?with_system_libjpeg:Requires:	libjpeg >= 9c}
 Requires:	libpng >= 2:1.6.37
-%{?with_system_libtiff:Requires:	libtiff >= 4.1.0}
+%{?with_system_libtiff:Requires:	libtiff >= 4.2.0}
+%{?with_system_openjp2:Requires:	openjpeg2 >= 2.4.0}
 Requires:	zlib >= 1.2.11
 Suggests:	fonts-TTF-urw
 Conflicts:	ghostpcl < 9
@@ -83,12 +87,13 @@ Group:		Applications/Graphics
 URL:		http://ghostscript.com/GhostXPS.html
 Requires:	cups-lib >= 1.5
 %{?with_system_expat:Requires:	expat >= 1:2.2.9}
-%{?with_system_freetype:Requires:	freetype >= 1:2.10.1}
+%{?with_system_freetype:Requires:	freetype >= 1:2.10.4}
 Requires:	ghostscript = %{version}
 %{?with_system_jbig2dec:Requires:	jbig2dec >= 0.19}
 %{?with_system_libjpeg:Requires:	libjpeg >= 9c}
 Requires:	libpng >= 2:1.6.37
-%{?with_system_libtiff:Requires:	libtiff >= 4.1.0}
+%{?with_system_libtiff:Requires:	libtiff >= 4.2.0}
+%{?with_system_openjp2:Requires:	openjpeg2 >= 2.4.0}
 Requires:	zlib >= 1.2.11
 
 %description -n ghostxps
@@ -104,12 +109,13 @@ oparciu o Ghostscript.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 # use system libs:
 # expat 2.2.9
 %{?with_system_expat:%{__rm} -r expat}
-# freetype 2.10.1
+# freetype 2.10.4
 %{?with_system_freetype:%{__rm} -r freetype}
 # jbig2dec 0.19
 %{?with_system_jbig2dec:%{__rm} -r jbig2dec}
@@ -117,9 +123,13 @@ oparciu o Ghostscript.
 %{__rm} -r libpng zlib
 # (unmodified) libjpeg 9c is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
 %{?with_system_libjpeg:%{__rm} -r jpeg}
-# openjpeg is 2.3.1 + fixes; stick to bundled for now
-# lcms2mt is thread safe version of lcms2
+# lcms2mt is thread safe version of lcms2 2.10
 %{?with_system_lcms:%{__rm} -r lcms2mt}
+# leptonica 1.81.0-git (for tesseract), no switch to use system
+# openjpeg 2.4.0
+%{?with_system_openjp2:%{__rm} -r openjpeg}
+# tesseract 5.0.0-alpha, no switch to use system
+
 %{__autoconf}
 %configure \
 	%{?with_system_libtiff:--with-system-libtiff}
