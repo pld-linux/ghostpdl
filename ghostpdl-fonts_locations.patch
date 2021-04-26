@@ -1,8 +1,8 @@
---- ghostpdl-9.19/pcl/pl/pjparse.c.orig	2016-03-23 09:19:58.000000000 +0100
-+++ ghostpdl-9.19/pcl/pl/pjparse.c	2016-07-30 20:27:35.447003714 +0200
-@@ -124,7 +124,7 @@
+--- ghostpdl-9.54.0/pcl/pl/pjparse.c.orig	2021-04-26 17:12:34.914001361 +0200
++++ ghostpdl-9.54.0/pcl/pl/pjparse.c	2021-04-26 19:52:18.728416493 +0200
+@@ -148,7 +148,7 @@ static pjl_envir_var_default_t pjl_facto
     source table. */
- static pjl_fontsource_t pjl_fontsource_table[] = {
+ static pjl_fontsource_default_t pjl_fontsource_table[] = {
      {"I",
 -     "%rom%ttfonts/;urwfonts/;pcl/urwfonts/;ghostpdl/pcl/urwfonts/;/windows/fonts/;", ""},
 +     "/usr/share/fonts/Type1/;/usr/share/fonts/TTF/" },

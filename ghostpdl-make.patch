@@ -1,6 +1,6 @@
---- ghostpcl-9.19/base/ugcclib.mak.orig	2002-06-13 01:18:14.000000000 +0200
-+++ ghostpcl-9.19/base/ugcclib.mak	2003-12-25 18:26:48.504185696 +0100
-@@ -67,10 +67,7 @@
+--- ghostpdl-9.54.0/base/ugcclib.mak.orig	2021-04-26 19:52:50.230050484 +0200
++++ ghostpdl-9.54.0/base/ugcclib.mak	2021-04-26 19:55:35.098602228 +0200
+@@ -96,10 +96,7 @@ GCFLAGS_NO_WARN=-fno-builtin -fno-common
  GCFLAGS_WARNINGS=-Wall -Wcast-qual -Wpointer-arith -Wstrict-prototypes -Wwrite-strings
  GCFLAGS=$(GCFLAGS_NO_WARN) $(GCFLAGS_WARNINGS)
  XCFLAGS=
@@ -10,5 +10,5 @@
 -CFLAGS=$(CFLAGS_DEBUG) $(GCFLAGS) $(XCFLAGS)
 +CFLAGS=$(GCFLAGS) $(XCFLAGS)
  LDFLAGS=$(XLDFLAGS)
- STDLIBS=-lm
+ STDLIBS=-lpthread -lm
  EXTRALIBS=
