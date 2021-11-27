@@ -11,17 +11,16 @@
 Summary:	PostScript, PDF and XPS interpreter and renderer
 Summary(pl.UTF-8):	Interpreter i renderer PostScriptu, PDF oraz XPS
 Name:		ghostpdl
-Version:	9.54.0
+Version:	9.55.0
 Release:	1
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
-Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9540/%{name}-%{version}.tar.xz
-# Source0-md5:	2169b5f45df556b975ffe4b45018ddb5
+Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9550/%{name}-%{version}.tar.xz
+# Source0-md5:	f6f0822e9743a663cc32ac6232840ccd
 Patch0:		%{name}-fonts_locations.patch
 Patch1:		%{name}-make.patch
 Patch2:		%{name}-system-libs.patch
-Patch3:		%{name}-tiff.patch
 URL:		https://ghostscript.com/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	cups-devel >= 1.5
@@ -109,7 +108,6 @@ oparciu o Ghostscript.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 # use system libs:
@@ -121,7 +119,7 @@ oparciu o Ghostscript.
 %{?with_system_jbig2dec:%{__rm} -r jbig2dec}
 # (unmodified) libpng 1.6.37 and zlib 1.2.11
 %{__rm} -r libpng zlib
-# (unmodified) libjpeg 9c is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
+# libjpeg 9d (with additional CLAMP_DC) is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
 %{?with_system_libjpeg:%{__rm} -r jpeg}
 # lcms2mt is thread safe version of lcms2 2.10
 %{?with_system_lcms:%{__rm} -r lcms2mt}
