@@ -1,43 +1,45 @@
 #
 # Conditional build:
-%bcond_without	system_expat	# system expat
-%bcond_without	system_freetype	# system freetype
-%bcond_without	system_jbig2dec	# system jbig2dec
-%bcond_with	system_lcms2	# system lcms2
-%bcond_with	system_libjpeg	# system libjpeg (incompatible with D_MAX_BLOCKS_IN_MCU=64 variant)
-%bcond_with	system_libtiff	# system libtiff (incompatible with modified libjpeg)
-%bcond_without	system_openjp2	# system openjpeg2
+%bcond_with	system_brotli		# system brotli (broken as of 10.06.0)
+%bcond_without	system_expat		# system expat
+%bcond_without	system_freetype		# system freetype
+%bcond_without	system_jbig2dec		# system jbig2dec
+%bcond_with	system_lcms2		# system lcms2
+%bcond_with	system_libjpeg		# system libjpeg (incompatible with D_MAX_BLOCKS_IN_MCU=64 variant)
+%bcond_with	system_libtiff		# system libtiff (incompatible with modified libjpeg)
+%bcond_without	system_openjp2		# system openjpeg2
 %bcond_without	system_tesseract	# system tesseract+leptonlib
 #
 Summary:	PostScript, PDF and XPS interpreter and renderer
 Summary(pl.UTF-8):	Interpreter i renderer PostScriptu, PDF oraz XPS
 Name:		ghostpdl
-Version:	10.05.1
+Version:	10.06.0
 Release:	1
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
-Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10051/%{name}-%{version}.tar.xz
-# Source0-md5:	d675adc5e9aecf06a00ded7b29eab7be
+Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10060/%{name}-%{version}.tar.xz
+# Source0-md5:	93be1cdd3d374953365ecf7f90afdb8f
 Patch0:		%{name}-fonts_locations.patch
 Patch1:		%{name}-make.patch
 Patch2:		%{name}-system-libs.patch
 URL:		https://ghostscript.com/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	cups-devel >= 1.5
-%{?with_system_expat:BuildRequires:	expat-devel >= 1:2.5.0}
+%{?with_system_expat:BuildRequires:	expat-devel >= 1:2.6.4}
 BuildRequires:	fontconfig-devel
 BuildRequires:	libidn-devel
-%{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.13.0}
+%{?with_system_freetype:BuildRequires:	freetype-devel >= 1:2.13.3}
 %{?with_system_jbig2dec:BuildRequires:	jbig2dec-devel >= 0.20}
 %{?with_system_lcms2:BuildRequires:	lcms2-devel >= 2.10}
-%{?with_system_libjpeg:BuildRequires:	libjpeg-devel >= 9e}
+%{?with_system_brotli:BuildRequires:	libbrotli-devel >= 1.0.9}
+%{?with_system_libjpeg:BuildRequires:	libjpeg-devel >= 9f}
 BuildRequires:	libpaper-devel
-BuildRequires:	libpng-devel >= 2:1.6.39
-%{?with_system_libtiff:BuildRequires:	libtiff-devel >= 4.2.0}
-%{?with_system_openjp2:BuildRequires:	openjpeg2-devel >= 2.4.0}
+BuildRequires:	libpng-devel >= 2:1.6.50
+%{?with_system_libtiff:BuildRequires:	libtiff-devel >= 4.7.0}
+%{?with_system_openjp2:BuildRequires:	openjpeg2-devel >= 2.5.3}
 BuildRequires:	tar >= 1:1.22
-%{?with_system_tesseract:BuildRequires:	tesseract-devel >= 4.1.0}
+%{?with_system_tesseract:BuildRequires:	tesseract-devel >= 5.5.0}
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXt-devel
@@ -61,14 +63,15 @@ Summary(pl.UTF-8):	Implementacja PCL-5 oraz PCL-XL
 Group:		Applications/Graphics
 URL:		http://ghostscript.com/GhostPCL.html
 Requires:	cups-lib >= 1.5
-%{?with_system_expat:Requires:	expat >= 1:2.5.0}
-%{?with_system_freetype:Requires:	freetype >= 1:2.13.0}
+%{?with_system_expat:Requires:	expat >= 1:2.6.4}
+%{?with_system_freetype:Requires:	freetype >= 1:2.13.3}
 Requires:	ghostscript = %{version}
 %{?with_system_jbig2dec:Requires:	jbig2dec >= 0.20}
-%{?with_system_libjpeg:Requires:	libjpeg >= 9e}
-Requires:	libpng >= 2:1.6.39
-%{?with_system_libtiff:Requires:	libtiff >= 4.2.0}
-%{?with_system_openjp2:Requires:	openjpeg2 >= 2.4.0}
+%{?with_system_brotli:Requires:	libbrotli >= 1.0.9}
+%{?with_system_libjpeg:Requires:	libjpeg >= 9f}
+Requires:	libpng >= 2:1.6.50
+%{?with_system_libtiff:Requires:	libtiff >= 4.7.0}
+%{?with_system_openjp2:Requires:	openjpeg2 >= 2.5.3}
 Requires:	zlib >= 1.2.13
 Suggests:	fonts-TTF-urw
 Conflicts:	ghostpcl < 9
@@ -87,14 +90,15 @@ Summary(pl.UTF-8):	Implementacja formatu dokumentów XPS oparta na Ghostscripcie
 Group:		Applications/Graphics
 URL:		http://ghostscript.com/GhostXPS.html
 Requires:	cups-lib >= 1.5
-%{?with_system_expat:Requires:	expat >= 1:2.5.0}
-%{?with_system_freetype:Requires:	freetype >= 1:2.13.0}
+%{?with_system_expat:Requires:	expat >= 1:2.6.4}
+%{?with_system_freetype:Requires:	freetype >= 1:2.13.3}
 Requires:	ghostscript = %{version}
 %{?with_system_jbig2dec:Requires:	jbig2dec >= 0.20}
-%{?with_system_libjpeg:Requires:	libjpeg >= 9e}
-Requires:	libpng >= 2:1.6.39
-%{?with_system_libtiff:Requires:	libtiff >= 4.2.0}
-%{?with_system_openjp2:Requires:	openjpeg2 >= 2.4.0}
+%{?with_system_brotli:Requires:	libbrotli >= 1.0.9}
+%{?with_system_libjpeg:Requires:	libjpeg >= 9f}
+Requires:	libpng >= 2:1.6.50
+%{?with_system_libtiff:Requires:	libtiff >= 4.7.0}
+%{?with_system_openjp2:Requires:	openjpeg2 >= 2.5.3}
 Requires:	zlib >= 1.2.13
 
 %description -n ghostxps
@@ -113,27 +117,32 @@ oparciu o Ghostscript.
 
 %build
 # use system libs:
-# expat 2.5.0
+# brotli 1.0.9
+%{?with_system_brotli:%{__rm} -r brotli}
+# expat 2.6.4
 %{?with_system_expat:%{__rm} -r expat}
-# freetype 2.13.0
+# freetype 2.13.3
 %{?with_system_freetype:%{__rm} -r freetype}
 # jbig2dec 0.20
 %{?with_system_jbig2dec:%{__rm} -r jbig2dec}
-# (unmodified) libpng 1.6.39 and zlib 1.2.13
+# (unmodified) libpng 1.6.50 and zlib 1.2.13
 %{__rm} -r libpng zlib
-# libjpeg 9e (with additional CLAMP_DC) is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
+# libjpeg 9f is built with different configuration (D_MAX_BLOCKS_IN_MCU=64)
 %{?with_system_libjpeg:%{__rm} -r jpeg}
+# jpegxr 1.8
+#%{?with_system_jpegxr:%{__rm} -r jpegxr}
 # lcms2mt is thread safe version of lcms2 2.10
 %{?with_system_lcms:%{__rm} -r lcms2mt}
-# openjpeg 2.4.0
+# openjpeg 2.5.3
 %{?with_system_openjp2:%{__rm} -r openjpeg}
-# tesseract 5.0.0-alpha-20201231, leptonica 1.81.0-git
+# tesseract 5.5.0, leptonica 1.85.0
 %{?with_system_tesseract:%{__rm} -r tesseract leptonica}
-# libtiff 4.5.0rc2
+# libtiff 4.7.0rc2
 %{?with_system_libtiff:%{__rm} -r tiff}
 
 %{__autoconf}
 %configure \
+	%{?with_system_brotli:--without-local-brotli} \
 	%{?with_system_libtiff:--with-system-libtiff}
 
 %{__make}
