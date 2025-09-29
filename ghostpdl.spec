@@ -14,7 +14,7 @@ Summary:	PostScript, PDF and XPS interpreter and renderer
 Summary(pl.UTF-8):	Interpreter i renderer PostScriptu, PDF oraz XPS
 Name:		ghostpdl
 Version:	10.06.0
-Release:	1
+Release:	2
 License:	AGPL v3+
 Group:		Applications/Graphics
 #Source0Download: https://github.com/ArtifexSoftware/ghostpdl-downloads/releases
@@ -23,6 +23,7 @@ Source0:	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download
 Patch0:		%{name}-fonts_locations.patch
 Patch1:		%{name}-make.patch
 Patch2:		%{name}-system-libs.patch
+Patch3:		%{name}-types.patch
 URL:		https://ghostscript.com/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	cups-devel >= 1.5
@@ -114,6 +115,7 @@ oparciu o Ghostscript.
 %patch -P0 -p1
 %patch -P1 -p1
 %patch -P2 -p1
+%patch -P3 -p1
 
 %build
 # use system libs:
